@@ -8,14 +8,24 @@ namespace HelloApi.Controllers;
 public class ProductsController : ControllerBase
 {
     [HttpGet("{id}")]
-    public Product Get(int id)
+    public ActionResult<Product> GetById(int id)
     {
-        return new Product
+        if (id <= 0)
         {
-            Id = id,
+            return BadRequest("Id harus lebih dari 0.");
+        }
+
+        if (id != 1)
+        {
+            return NotFound();
+        }
+
+        return Ok(new Product
+        {
+            Id = 1,
             Name = "Keyboard",
             Price = 350000
-        };
+        });
     }
 
     [HttpGet("all")]
@@ -39,9 +49,13 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public Product Create(Product product)
+    public ActionResult<Product> Create(Product product)
     {
-        return product;
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = product.Id },
+            product
+        );
     }
 
     [HttpPut("{id}")]
@@ -51,8 +65,18 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public string Delete(int id)
+    public ActionResult Delete (int id)
     {
-        return $"Product {id} deleted.";
+        if (id <= 0)
+        {
+            return BadRequest();
+        }
+        
+        if (id == 999)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }   
