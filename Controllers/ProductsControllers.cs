@@ -1,3 +1,4 @@
+using HelloApi.DTOs;
 using HelloApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,19 +50,51 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<Product> Create(Product product)
+    public ActionResult<ProductDto> Create(CreateProductDto request)
     {
+        var product = new Product
+        {
+            Id = 1,
+            Name = request.Name,
+            Price = request.Price,
+            CreatedAt = DateTime.Now,
+            IsDeleted = false
+        };
+
+        var dto = new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        };
+
         return CreatedAtAction(
             nameof(GetById),
             new { id = product.Id },
-            product
+            dto
         );
     }
 
     [HttpPut("{id}")]
-    public string Update(int id)
+    public ActionResult<ProductDto> Update(int id, UpdateProductDto request)
     {        
-        return $"Product {id} updated.";
+        var product = new Product
+        {
+            Id = id,
+            Name = request.Name,
+            Price = request.Price,
+            CreatedAt = DateTime.Now,
+            IsDeleted = false
+        };
+
+        var dto = new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        };
+
+        return Ok(dto);
     }
 
     [HttpDelete("{id}")]
