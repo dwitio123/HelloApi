@@ -7,12 +7,12 @@ namespace HelloApi.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    [HttpGet]
-    public Product Get()
+    [HttpGet("{id}")]
+    public Product Get(int id)
     {
         return new Product
         {
-            Id = 1,
+            Id = id,
             Name = "Keyboard",
             Price = 350000
         };
@@ -37,4 +37,22 @@ public class ProductsController : ControllerBase
             },
         };
     }
-}
+
+    [HttpPost]
+    public Product Create(Product product)
+    {
+        return product;
+    }
+
+    [HttpPut("{id}")]
+    public string Update(int id)
+    {        
+        return $"Product {id} updated.";
+    }
+
+    [HttpDelete("{id}")]
+    public string Delete(int id)
+    {
+        return $"Product {id} deleted.";
+    }
+}   
