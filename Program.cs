@@ -1,7 +1,10 @@
+using HelloApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
 

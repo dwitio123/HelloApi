@@ -1,5 +1,6 @@
 using HelloApi.DTOs;
 using HelloApi.Models;
+using HelloApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloApi.Controllers;
@@ -8,6 +9,25 @@ namespace HelloApi.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
+    private readonly ProductService _productService;
+
+    public ProductsController(ProductService productService)
+    {
+        _productService = productService;
+    }
+
+    [HttpGet]
+    public ActionResult<Product> Get()
+    {
+        var product = _productService.GetProduct();
+        return Ok(new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        });
+    }
+
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
     {
@@ -30,23 +50,17 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("all")]
-    public List<Product> GetAll()
+    public ActionResult<List<ProductDto>> GetAll()
     {
-        return new List<Product>
+        var product = _productService.GetAllProduct();
+        var productDtos = product.Select(product => new ProductDto
         {
-            new Product
-            {
-                Id = 1,
-                Name = "Keyboard",
-                Price = 350000
-            },
-            new Product
-            {
-                Id = 2,
-                Name = "Mouse",
-                Price = 150000
-            },
-        };
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        }).ToList();
+        
+        return Ok(productDtos);
     }
 
     [HttpPost]
