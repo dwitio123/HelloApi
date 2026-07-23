@@ -1,35 +1,39 @@
 using HelloApi.Models;
+using HelloApi.Repositories;
 
 namespace HelloApi.Services;
 
 public class ProductService
 {
-    public Product GetProduct()
+    private readonly IProductRepository _repository;
+
+    public ProductService(IProductRepository repository)
     {
-        return new Product
-        {
-            Id = 1,
-            Name = "Keyboard",
-            Price = 350000  
-        };
+        _repository = repository;
     }
 
     public List<Product> GetAllProduct()
     {
-        return new List<Product>
+        return _repository.GetAll();
+    }
+
+    public Product? GetProduct(int id)
+    {
+        return _repository.GetById(id);
+    }
+
+    public Product CreateProduct(string name, decimal price)
+    {
+        var product = _repository.GetAll();
+        var newProduct = new Product
         {
-            new Product
-            {
-                Id = 1,
-                Name = "Keyboard",
-                Price = 350000
-            },
-            new Product
-            {
-                Id = 2,
-                Name = "Mouse",
-                Price = 150000
-            },
+            Id = product.Max(p => p.Id) + 1,
+            Name = name,
+            Price = price
         };
+
+        _repository.Add(newProduct);
+        
+        return newProduct;
     }
 }

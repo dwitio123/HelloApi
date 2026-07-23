@@ -16,17 +16,17 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
-    [HttpGet]
-    public ActionResult<Product> Get()
-    {
-        var product = _productService.GetProduct();
-        return Ok(new ProductDto
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price
-        });
-    }
+    // [HttpGet]
+    // public ActionResult<Product> Get()
+    // {
+    //     var product = _productService.GetProduct();
+    //     return Ok(new ProductDto
+    //     {
+    //         Id = product.Id,
+    //         Name = product.Name,
+    //         Price = product.Price
+    //     });
+    // }
 
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
@@ -66,16 +66,9 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public ActionResult<ProductDto> Create(CreateProductDto request)
     {
-        var product = new Product
-        {
-            Id = 1,
-            Name = request.Name,
-            Price = request.Price,
-            CreatedAt = DateTime.Now,
-            IsDeleted = false
-        };
+        var product = _productService.CreateProduct(request.Name, request.Price);
 
-        var dto = new ProductDto
+        var productDto = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
@@ -84,8 +77,8 @@ public class ProductsController : ControllerBase
 
         return CreatedAtAction(
             nameof(GetById),
-            new { id = product.Id },
-            dto
+            new { id = productDto.Id },
+            productDto
         );
     }
 

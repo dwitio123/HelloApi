@@ -1,0 +1,10 @@
+using HelloApi.Models;
+
+namespace HelloApi.Repositories;
+
+public interface IProductRepository
+{
+    List<Product> GetAll();
+    Product? GetById(int id);
+    void Add(Product product);
+}
