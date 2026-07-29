@@ -12,27 +12,27 @@ public class ProductService
         _repository = repository;
     }
 
-    public List<Product> GetAllProduct()
+    public async Task<List<Product>> GetAllProductAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAllAsync();
     }
 
-    public Product? GetProduct(int id)
+    public async Task<Product?> GetProductAsync(int id)
     {
-        return _repository.GetById(id);
+        return await _repository.GetByIdAsync(id);
     }
 
-    public Product CreateProduct(string name, decimal price)
+    public async Task<Product> CreateProductAsync(string name, decimal price)
     {
-        var product = _repository.GetAll();
+        var product = await _repository.GetAllAsync();
         var newProduct = new Product
         {
-            Id = product.Max(p => p.Id) + 1,
+            Id = product.Any() ? product.Max(p => p.Id) + 1 : 1,
             Name = name,
             Price = price
         };
 
-        _repository.Add(newProduct);
+        await _repository.AddAsync(newProduct);
         
         return newProduct;
     }

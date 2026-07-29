@@ -4,9 +4,9 @@ namespace HelloApi.Repositories;
 
 public interface IProductRepository
 {
-    List<Product> GetAll();
-    Product? GetById(int id);
-    void Add(Product product);
+    Task<List<Product>> GetAllAsync();
+    Task<Product?> GetByIdAsync(int id);
+    Task AddAsync(Product product);
     void Update(Product product);
     void Delete(Product product);
 }

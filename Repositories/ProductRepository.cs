@@ -1,5 +1,6 @@
 using HelloApi.Data;
 using HelloApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloApi.Repositories;
 
@@ -27,20 +28,20 @@ public class ProductRepository : IProductRepository
                 Price = 150000
             }
     };
-    public List<Product> GetAll()
+    public async Task<List<Product>> GetAllAsync()
     {
-        return _context.Products.ToList();
+        return await _context.Products.ToListAsync();
     }
 
-    public Product? GetById(int id)
+    public async Task<Product?> GetByIdAsync(int id)
     {
-        return _context.Products.FirstOrDefault(p => p.Id == id);
+        return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public void Add(Product product)
+    public async Task AddAsync(Product product)
     {
-        _context.Products.Add(product);
-        _context.SaveChanges();
+        await _context.Products.AddAsync(product);
+        await _context.SaveChangesAsync();
     }
 
     public void Update(Product product)

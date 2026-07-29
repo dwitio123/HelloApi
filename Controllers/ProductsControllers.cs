@@ -29,7 +29,7 @@ public class ProductsController : ControllerBase
     // }
 
     [HttpGet("{id}")]
-    public ActionResult<Product> GetById(int id)
+    public async Task<ActionResult<ProductDto>> GetById(int id)
     {
         if (id <= 0)
         {
@@ -50,9 +50,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("all")]
-    public ActionResult<List<ProductDto>> GetAll()
+    public async Task<ActionResult<List<ProductDto>>> GetAll()
     {
-        var product = _productService.GetAllProduct();
+        var product = await _productService.GetAllProductAsync();
         var productDtos = product.Select(product => new ProductDto
         {
             Id = product.Id,
@@ -64,9 +64,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<ProductDto> Create(CreateProductDto request)
+    public async Task<ActionResult<ProductDto>> Create(CreateProductDto request)
     {
-        var product = _productService.CreateProduct(request.Name, request.Price);
+        var product = await _productService.CreateProductAsync(request.Name, request.Price);
 
         var productDto = new ProductDto
         {
