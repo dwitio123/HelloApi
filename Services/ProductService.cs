@@ -27,7 +27,7 @@ public class ProductService
         var product = await _repository.GetAllAsync();
         var newProduct = new Product
         {
-            Id = product.Any() ? product.Max(p => p.Id) + 1 : 1,
+            // Id = product.Any() ? product.Max(p => p.Id) + 1 : 1,
             Name = name,
             Price = price
         };
