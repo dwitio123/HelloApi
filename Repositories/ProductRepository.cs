@@ -30,7 +30,7 @@ public class ProductRepository : IProductRepository
     };
     public async Task<List<Product>> GetAllAsync()
     {
-        return await _context.Products.ToListAsync();
+        return await _context.Products.Include(p => p.Category).ToListAsync();
     }
 
     public async Task<Product?> GetByIdAsync(int id)

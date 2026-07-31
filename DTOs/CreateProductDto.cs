@@ -14,4 +14,7 @@ public class CreateProductDto
     [Required(ErrorMessage = "Deskripsi produk wajib diisi.")]
     [StringLength(300, MinimumLength = 10)]
     public string Description { get; set; } = "";
+
+    [Required(ErrorMessage = "Id kategori wajib diisi.")]
+    public int CategoryId { get; set; }
 }

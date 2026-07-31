@@ -22,14 +22,16 @@ public class ProductService
         return await _repository.GetByIdAsync(id);
     }
 
-    public async Task<Product> CreateProductAsync(string name, decimal price)
+    public async Task<Product> CreateProductAsync(string name, decimal price, string description, int category_id)
     {
         var product = await _repository.GetAllAsync();
         var newProduct = new Product
         {
             // Id = product.Any() ? product.Max(p => p.Id) + 1 : 1,
             Name = name,
-            Price = price
+            Price = price,
+            Description = description,
+            CategoryId = category_id
         };
 
         await _repository.AddAsync(newProduct);

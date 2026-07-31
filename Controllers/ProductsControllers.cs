@@ -66,13 +66,15 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProductDto>> Create(CreateProductDto request)
     {
-        var product = await _productService.CreateProductAsync(request.Name, request.Price);
+        var product = await _productService.CreateProductAsync(request.Name, request.Price, request.Description, request.CategoryId);
 
         var productDto = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,
-            Price = product.Price
+            Price = product.Price,
+            Description = product.Description,
+            CategoryId = product.CategoryId
         };
 
         return CreatedAtAction(

@@ -8,4 +8,6 @@ public class Product
     public decimal Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsDeleted { get; set; }
+    public int CategoryId { get; set; }
+    public Category? Category { get; set; }
 }
