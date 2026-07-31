@@ -55,4 +55,19 @@ public class ProductRepository : IProductRepository
         _context.Products.Remove(product);
         _context.SaveChanges();
     }
+
+    public async Task<List<Product>> GetExpensiveProductsAsync(decimal minimumPrice)
+    {
+        return await _context.Products
+            .Where(p => p.Price >= minimumPrice)
+            .OrderByDescending(p => p.Price)
+            .ToListAsync();
+    }
+
+    public async Task<List<Product>> SearchByNameAsync(string keyword)
+    {
+        return await _context.Products
+            .Where(p => p.Name.Contains(keyword))
+            .ToListAsync();
+    }
 }

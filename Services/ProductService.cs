@@ -38,4 +38,14 @@ public class ProductService
         
         return newProduct;
     }
+
+    public async Task<List<Product>> GetExpensiveProductsAsync(decimal minimumPrice)
+    {
+        return await _repository.GetExpensiveProductsAsync(minimumPrice);
+    }
+
+    public Task<List<Product>> SearchByNameAsync(string keyword)
+    {
+        return _repository.SearchByNameAsync(keyword);
+    }
 }

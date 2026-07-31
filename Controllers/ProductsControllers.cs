@@ -121,4 +121,34 @@ public class ProductsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("expensive")]
+    public async Task<ActionResult<List<ProductDto>>> GetExpensiveProducts(decimal minimumPrice)
+    {
+        var products = await _productService.GetExpensiveProductsAsync(minimumPrice);
+        var dto = products.Select(products => new ProductDto
+        {
+            Id = products.Id,
+            Name = products.Name,
+            Price = products.Price,
+            CategoryId = products.CategoryId
+        }).ToList();
+
+        return Ok(dto);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<List<ProductDto>>> Search(string keyword)
+    {
+        var products = await _productService.SearchByNameAsync(keyword);
+        var dto = products.Select(products => new ProductDto
+        {
+            Id = products.Id,
+            Name = products.Name,
+            Price = products.Price,
+            Description = products.Description
+        }).ToList();
+
+        return Ok(dto);
+    }
 }   

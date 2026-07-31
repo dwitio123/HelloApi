@@ -9,4 +9,6 @@ public interface IProductRepository
     Task AddAsync(Product product);
     void Update(Product product);
     void Delete(Product product);
+    Task<List<Product>> GetExpensiveProductsAsync(decimal minimumPrice);
+    Task<List<Product>> SearchByNameAsync(string keyword);
 }
