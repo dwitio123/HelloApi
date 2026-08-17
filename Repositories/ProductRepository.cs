@@ -70,4 +70,27 @@ public class ProductRepository : IProductRepository
             .Where(p => p.Name.Contains(keyword))
             .ToListAsync();
     }
+
+    public async Task<List<Product>> GetPagedAsync(int page, int pageSize)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .OrderBy(p => p.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+
+    public async Task<List<Product>> SearchAsync(
+        string keyword,
+        int page,
+        int pageSize)
+    {
+        return await _context.Products
+            .Where(p => p.Name.Contains(keyword))
+            .OrderBy(p => p.Name)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

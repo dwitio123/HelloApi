@@ -11,4 +11,6 @@ public interface IProductRepository
     void Delete(Product product);
     Task<List<Product>> GetExpensiveProductsAsync(decimal minimumPrice);
     Task<List<Product>> SearchByNameAsync(string keyword);
+    Task<List<Product>> GetPagedAsync(int page, int pageSize);
+    Task<List<Product>> SearchAsync(string keyword, int page, int pageSize);
 }

@@ -48,4 +48,14 @@ public class ProductService
     {
         return _repository.SearchByNameAsync(keyword);
     }
+
+    public async Task<List<Product>> GetPagedProductsAsync(int page, int pageSize)
+    {
+        return await _repository.GetPagedAsync(page, pageSize);
+    }
+
+    public async Task<List<Product>> SearchProductsAsync(string keyword, int page, int pageSize)
+    {
+        return await _repository.SearchAsync(keyword, page, pageSize);
+    }
 }

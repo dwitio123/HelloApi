@@ -151,4 +151,39 @@ public class ProductsController : ControllerBase
 
         return Ok(dto);
     }
+
+    [HttpGet]
+    public async Task<ActionResult<List<ProductDto>>> GetAll(
+        int page = 1,
+        int pageSize = 10)
+    {
+        var products = await _productService.GetPagedProductsAsync(page, pageSize);
+        var dto = products.Select(product => new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            CategoryId = product.CategoryId
+        }).ToList();
+
+        return Ok(dto);
+    }
+
+    [HttpGet("search-paged")]
+    public async Task<ActionResult<List<ProductDto>>> SearchPaged(
+        string keyword,
+        int page = 1,
+        int pageSize = 10)
+    {
+        var products = await _productService.SearchProductsAsync(keyword, page, pageSize);
+        var dto = products.Select(product => new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            CategoryId = product.CategoryId
+        }).ToList();
+
+        return Ok(dto);
+    }
 }   
