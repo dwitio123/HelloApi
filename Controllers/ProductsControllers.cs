@@ -1,12 +1,14 @@
 using HelloApi.DTOs;
 using HelloApi.Models;
 using HelloApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ProductsController : ControllerBase
 {
     private readonly ProductService _productService;
@@ -106,6 +108,7 @@ public class ProductsController : ControllerBase
         return Ok(dto);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public ActionResult Delete (int id)
     {
@@ -185,5 +188,12 @@ public class ProductsController : ControllerBase
         }).ToList();
 
         return Ok(dto);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("public")]
+    public IActionResult PublicInfo()
+    {
+        return Ok("Semua orang bisa mengakses.");
     }
 }   

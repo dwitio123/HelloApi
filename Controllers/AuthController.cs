@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -28,6 +29,18 @@ public class AuthController : ControllerBase
         return Unauthorized(new LoginResponseDto
         {
             Message = "Username atau password salah"
+        });
+    }
+
+    [Authorize]
+    [HttpGet("profile")]
+    public IActionResult Profile()
+    {
+        var username = User.Identity?.Name;
+
+        return Ok(new
+        {
+           Username = username
         });
     }
 }
