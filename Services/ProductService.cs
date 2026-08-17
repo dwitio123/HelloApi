@@ -3,7 +3,7 @@ using HelloApi.Repositories;
 
 namespace HelloApi.Services;
 
-public class ProductService
+public class ProductService : IProductService
 {
     private readonly IProductRepository _repository;
 
@@ -57,5 +57,15 @@ public class ProductService
     public async Task<List<Product>> SearchProductsAsync(string keyword, int page, int pageSize)
     {
         return await _repository.SearchAsync(keyword, page, pageSize);
+    }
+
+    public Task<List<Product>> GetAllAsync()
+    {
+        return _repository.GetAllAsync();
+    }
+
+    public Task<Product?> GetByIdAsync(int id)
+    {
+        return _repository.GetByIdAsync(id);
     }
 }
